@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Filesaver.js : An HTML5 saveAs() FileSaver implementation" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Filesaver.js</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/atdavewatts/FileSaver.js">View on GitHub</a>
+
+          <h1 id="project_title">Filesaver.js</h1>
+          <h2 id="project_tagline">An HTML5 saveAs() FileSaver implementation</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/atdavewatts/FileSaver.js/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/atdavewatts/FileSaver.js/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="filesaverjs" class="anchor" href="#filesaverjs"><span class="octicon octicon-link"></span></a>FileSaver.js</h1>
+
+<p>FileSaver.js implements the HTML5 W3C <code>saveAs()</code> FileSaver interface in browsers that do
+not natively support it. There is a <a href="http://eligrey.com/demos/FileSaver.js/">FileSaver.js demo</a> that demonstrates saving
+various media types.</p>
+
+<p>FileSaver.js is the solution to saving files on the client-side, and is perfect for
+webapps that need to generate files, or for saving sensitive information that shouldn't be
+sent to an external server.</p>
+
+<p>Looking for <code>canvas.toBlob()</code> for saving canvases? Check out
+<a href="https://github.com/eligrey/canvas-toBlob.js">canvas-toBlob.js</a> for a cross-browser implementation.</p>
+
+<h2>
+<a name="supported-browsers" class="anchor" href="#supported-browsers"><span class="octicon octicon-link"></span></a>Supported Browsers</h2>
+
+<table>
+<thead><tr>
+<th>Browser</th>
+<th>Constructs as</th>
+<th>Filenames</th>
+<th>Max Blob Size</th>
+<th>Dependencies</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Firefox 20+</td>
+<td>Blob</td>
+<td>Yes</td>
+<td>800 MiB</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Firefox &lt; 20</td>
+<td>data: URI</td>
+<td>No</td>
+<td>n/a</td>
+<td><a href="https://github.com/eligrey/Blob.js">Blob.js</a></td>
+</tr>
+<tr>
+<td>Chrome</td>
+<td>Blob</td>
+<td>Yes</td>
+<td>345 MiB</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Chrome for Android</td>
+<td>Blob</td>
+<td>Yes</td>
+<td>?</td>
+<td>None</td>
+</tr>
+<tr>
+<td>IE 10+</td>
+<td>Blob</td>
+<td>Yes</td>
+<td>600 MiB</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Opera 15+</td>
+<td>Blob</td>
+<td>Yes</td>
+<td>345 MiB</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Opera &lt; 15</td>
+<td>data: URI</td>
+<td>No</td>
+<td>n/a</td>
+<td><a href="https://github.com/eligrey/Blob.js">Blob.js</a></td>
+</tr>
+<tr>
+<td>Safari 6.1+*</td>
+<td>Blob</td>
+<td>No</td>
+<td>?</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Safari &lt; 6</td>
+<td>data: URI</td>
+<td>No</td>
+<td>n/a</td>
+<td><a href="https://github.com/eligrey/Blob.js">Blob.js</a></td>
+</tr>
+</tbody>
+</table><p>Feature detection is possible:</p>
+
+<div class="highlight highlight-js"><pre><span class="k">try</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">isFileSaverSupported</span> <span class="o">=</span> <span class="o">!!</span><span class="k">new</span> <span class="nx">Blob</span><span class="p">;</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{}</span>
+</pre></div>
+
+<h3>
+<a name="ie--10" class="anchor" href="#ie--10"><span class="octicon octicon-link"></span></a>IE &lt; 10</h3>
+
+<p>It is possible to save HTML documents (and only HTML documents) in IE &lt; 10 without Flash-based
+polyfills. See <a href="https://github.com/eligrey/FileSaver.js/issues/56#issuecomment-30917476">sudodoki's comment</a>
+for more information on how to accomplish this.</p>
+
+<h3>
+<a name="safari-61" class="anchor" href="#safari-61"><span class="octicon octicon-link"></span></a>Safari 6.1+</h3>
+
+<p>Blobs may be opened instead of saved sometimes—you may have to direct your Safari users to manually
+press <kbd>⌘</kbd>+<kbd>S</kbd> to save the file after it is opened. Using the <code>application/octet-stream</code> MIME type to force downloads <a href="https://github.com/eligrey/FileSaver.js/issues/12#issuecomment-47247096">can cause issues in Safari</a>.</p>
+
+<h2>
+<a name="syntax" class="anchor" href="#syntax"><span class="octicon octicon-link"></span></a>Syntax</h2>
+
+<div class="highlight highlight-js"><pre><span class="nx">FileSaver</span> <span class="nx">saveAs</span><span class="p">(</span><span class="k">in</span> <span class="nx">Blob</span> <span class="nx">data</span><span class="p">,</span> <span class="k">in</span> <span class="nx">DOMString</span> <span class="nx">filename</span><span class="p">)</span>
+</pre></div>
+
+<h2>
+<a name="examples" class="anchor" href="#examples"><span class="octicon octicon-link"></span></a>Examples</h2>
+
+<h3>
+<a name="saving-text" class="anchor" href="#saving-text"><span class="octicon octicon-link"></span></a>Saving text</h3>
+
+<div class="highlight highlight-js"><pre><span class="kd">var</span> <span class="nx">blob</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Blob</span><span class="p">([</span><span class="s2">"Hello, world!"</span><span class="p">],</span> <span class="p">{</span><span class="nx">type</span><span class="o">:</span> <span class="s2">"text/plain;charset=utf-8"</span><span class="p">});</span>
+<span class="nx">saveAs</span><span class="p">(</span><span class="nx">blob</span><span class="p">,</span> <span class="s2">"hello world.txt"</span><span class="p">);</span>
+</pre></div>
+
+<p>The standard W3C File API <a href="https://developer.mozilla.org/en-US/docs/DOM/Blob"><code>Blob</code></a> interface is not available in all browsers.
+<a href="https://github.com/eligrey/Blob.js">Blob.js</a> is a cross-browser <code>Blob</code> implementation that solves this.</p>
+
+<h3>
+<a name="saving-a-canvas" class="anchor" href="#saving-a-canvas"><span class="octicon octicon-link"></span></a>Saving a canvas</h3>
+
+<div class="highlight highlight-js"><pre><span class="kd">var</span> <span class="nx">canvas</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"my-canvas"</span><span class="p">),</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">getContext</span><span class="p">(</span><span class="s2">"2d"</span><span class="p">);</span>
+<span class="c1">// draw to canvas...</span>
+<span class="nx">canvas</span><span class="p">.</span><span class="nx">toBlob</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">blob</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">saveAs</span><span class="p">(</span><span class="nx">blob</span><span class="p">,</span> <span class="s2">"pretty image.png"</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>Note: The standard HTML5 <code>canvas.toBlob()</code> method is not available in all browsers.
+<a href="https://github.com/eligrey/canvas-toBlob.js">canvas-toBlob.js</a> is a cross-browser <code>canvas.toBlob()</code> that polyfills this.</p>
+
+<p><img src="https://in.getclicky.com/212712ns.gif" alt="Tracking image"></p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Filesaver.js maintained by <a href="https://github.com/atdavewatts">atdavewatts</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
